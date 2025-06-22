@@ -3,8 +3,8 @@ plugins {
     id("maven-publish")
 }
 
-group = "net.normalv"
-version = "1.0-SNAPSHOT"
+group = "com.github.Lumitani-pixel"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -21,17 +21,21 @@ tasks.test {
 
 publishing {
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>("gpr") {
             from(components["java"])
-            groupId = "net.normalv"
-            artifactId = "your-artifact-id" // change this to your desired module name
-            version = "1.0-SNAPSHOT"
+            groupId = "com.github.Lumitani-pixel"
+            artifactId = "logger"
+            version = "1.0.0"
         }
     }
     repositories {
         maven {
-            name = "LocalRepo"
-            url = uri(layout.buildDirectory.dir("repo"))
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Lumitani-pixel/Logger")
+            credentials {
+                username = project.findProperty("gpr.user") as String?
+                password = project.findProperty("gpr.key") as String?
+            }
         }
     }
 }
