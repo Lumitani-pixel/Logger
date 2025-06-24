@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.Lumitani-pixel"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ publishing {
             from(components["java"])
             groupId = "com.github.Lumitani-pixel"
             artifactId = "logger"
-            version = "1.0.0"
+            version = "1.0.1"
         }
     }
     repositories {

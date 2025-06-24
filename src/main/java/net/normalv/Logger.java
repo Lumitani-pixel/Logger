@@ -41,7 +41,7 @@ public class Logger {
         return "\u001b[1m\u001b[32m["+prefix+"]\u001b[0m:["+getCurrentTime()+"]:["+logLevel+"]: "+content+"\u001b[0m";
     }
     private static String messageBuilder(String logLevel, String content) {
-        return "["+prefix+"]:["+getCurrentTime()+"]:["+logLevel+"]: "+content+"\u001b[0m";
+        return "["+prefix+"]:["+getCurrentTime()+"]:["+logLevel+"]: "+content;
     }
 
     private static String getCurrentTime() {return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));}
