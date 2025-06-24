@@ -38,16 +38,16 @@ public class Logger {
     }
 
     private static String messageBuilderInternal(String logLevel, String content) {
-        return "\u001b[1m\u001b[32m["+prefix+"]\u001b[0m:["+getCurrentTime()+"]:["+logLevel+"]: "+content;
+        return "\u001b[1m\u001b[32m["+prefix+"]\u001b[0m:["+getCurrentTime()+"]:["+logLevel+"]: "+content+"\u001b[0m";
     }
     private static String messageBuilder(String logLevel, String content) {
-        return "["+prefix+"]:["+getCurrentTime()+"]:["+logLevel+"]: "+content;
+        return "["+prefix+"]:["+getCurrentTime()+"]:["+logLevel+"]: "+content+"\u001b[0m";
     }
 
     private static String getCurrentTime() {return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));}
 
     public static void close() {
-        debug("==========Closing Simulation==========");
+        debug("==========Closing Logger==========");
         logManager.close();
     }
 }
