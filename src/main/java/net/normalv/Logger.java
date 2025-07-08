@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Logger {
+    public static boolean logToFile = true;
     private final static String prefix = "Bobby Log";
     private final static String warnLevelInternal = "\u001b[31mWARN\u001b[0m";
     private final static String warnLevel = "WARN";
@@ -20,17 +21,21 @@ public class Logger {
 
     public static void warn(String warnMessage){
         if(logIntern) logInternal(messageBuilderInternal(warnLevelInternal, warnANSI+warnMessage));
-        logManager.log(messageBuilder(warnLevel, warnMessage));
+        if(logToFile) logManager.log(messageBuilder(warnLevel, warnMessage));
     }
 
     public static void debug(String debugMessage) {
         if(logIntern) logInternal(messageBuilderInternal(debugLevelInteral, debugANSI+debugMessage));
-        logManager.log(messageBuilder(debugLevel, debugMessage));
+        if(logToFile) logManager.log(messageBuilder(debugLevel, debugMessage));
     }
 
     public static void info(String infoMessage) {
         if(logIntern) logInternal(messageBuilderInternal(infoLevel, infoANSI+infoMessage));
-        logManager.log(messageBuilder(infoLevel, infoMessage));
+        if(logToFile) logManager.log(messageBuilder(infoLevel, infoMessage));
+    }
+
+    public static void setLogToFile(boolean toFile) {
+        logToFile=toFile;
     }
 
     private static void logInternal(String message) {
