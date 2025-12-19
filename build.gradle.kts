@@ -23,3 +23,18 @@ java {
 tasks.test {
     useJUnitPlatform()
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            groupId = project.group.toString()
+            artifactId = "logger"
+            version = project.version.toString()
+        }
+    }
+
+    repositories {
+        mavenLocal() // for testing
+    }
+}
