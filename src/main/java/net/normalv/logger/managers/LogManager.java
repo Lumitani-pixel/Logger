@@ -8,6 +8,7 @@ import java.util.zip.ZipOutputStream;
 
 public class LogManager {
 
+    //TODO: Make this configurable
     private static final long MAX_LOG_SIZE = 5 * 1024 * 1024;
     private static final int MAX_LOG_FILES = 10;
 
@@ -15,6 +16,9 @@ public class LogManager {
     private File log;
     private FileWriter writer;
 
+    /**
+     * When called ensures the right log folder is existing and we have a file to log to.
+     */
     public LogManager() {
         if (!folder.exists()) folder.mkdirs();
         try {
@@ -24,11 +28,19 @@ public class LogManager {
         }
     }
 
+    /**
+     * Called when needing to create a new Log file
+     * @throws IOException Security first :)
+     */
     private void createNewLogFile() throws IOException {
         log = new File(folder, "current.log");
         writer = new FileWriter(log, true);
     }
 
+    /**
+     * Synced log action to log to a file (Not for console logging)
+     * @param message What to log
+     */
     public synchronized void log(String message) {
         try {
             writer.write(message + System.lineSeparator());
@@ -39,6 +51,10 @@ public class LogManager {
         }
     }
 
+    /**
+     * Finishes and renames logs and starts new one while cleaning up old logs
+     * @throws IOException Security first :)
+     */
     private void rotate() throws IOException {
         writer.close();
 
@@ -50,6 +66,9 @@ public class LogManager {
         createNewLogFile();
     }
 
+    /**
+     * Compresses logs when to many log files to keep organized really simple
+     */
     private void cleanupOldLogs() {
         File[] files = folder.listFiles((dir, name) ->
                 name.endsWith(".txt") && !name.equals("current.log"));
@@ -64,6 +83,10 @@ public class LogManager {
         }
     }
 
+    /**
+     * Simple compression I quickly learned this so it might be pretty bad
+     * @param file The file to compress
+     */
     private void compress(File file) {
         File zipFile = new File(file.getAbsolutePath().replace(".txt", ".zip"));
 
@@ -84,6 +107,10 @@ public class LogManager {
         }
     }
 
+    /**
+     * Synced closing function.
+     * Called when the Main Program should be closed
+     */
     public synchronized void close() {
         try {
             writer.flush();
