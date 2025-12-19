@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.Lumitani-pixel"
-version = "2.0.0"
+version = "2.1.3"
 
 repositories {
     mavenCentral()
