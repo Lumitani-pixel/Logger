@@ -1,6 +1,0 @@
-jdk:
-  - openjdk-21
-
-gradle:
-  tasks:
-    - build

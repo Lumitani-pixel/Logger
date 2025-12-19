@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.Lumitani-pixel"
-version = "2.1.3"
+version = "2.1.6"
 
 repositories {
     mavenCentral()
@@ -15,26 +15,17 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
 tasks.test {
     useJUnitPlatform()
 }
 
 publishing {
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>("gpr") {
             from(components["java"])
-            groupId = project.group.toString()
+            groupId = "com.github.Lumitani-pixel"
             artifactId = "logger"
-            version = project.version.toString()
+            version = "2.1.6"
         }
-    }
-
-    repositories {
-        mavenLocal() // for testing
     }
 }
