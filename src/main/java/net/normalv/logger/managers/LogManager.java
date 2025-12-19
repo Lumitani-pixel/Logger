@@ -1,4 +1,4 @@
-package net.normalv.managers;
+package net.normalv.logger.managers;
 
 import java.io.*;
 import java.util.Arrays;

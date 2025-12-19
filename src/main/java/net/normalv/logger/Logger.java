@@ -1,6 +1,6 @@
-package net.normalv;
+package net.normalv.logger;
 
-import net.normalv.managers.LogManager;
+import net.normalv.logger.managers.LogManager;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
