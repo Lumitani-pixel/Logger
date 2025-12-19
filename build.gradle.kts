@@ -1,10 +1,9 @@
 plugins {
     id("java")
-    id("maven-publish")
 }
 
 group = "com.github.Lumitani-pixel"
-version = "v2.0.0"
+version = "2.0.0"
 
 repositories {
     mavenCentral()
@@ -15,27 +14,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-tasks.test {
-    useJUnitPlatform()
+
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("gpr") {
-            from(components["java"])
-            groupId = "com.github.Lumitani-pixel"
-            artifactId = "logger"
-            version = "v2.0.0"
-        }
-    }
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Lumitani-pixel/Logger")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
+tasks.test {
+    useJUnitPlatform()
 }
