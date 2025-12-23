@@ -1,10 +1,15 @@
 plugins {
     id("java")
-    id("maven-publish")
 }
 
 group = "com.github.Lumitani-pixel"
 version = "2.1.6"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
 
 repositories {
     mavenCentral()
@@ -17,15 +22,4 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("gpr") {
-            from(components["java"])
-            groupId = "com.github.Lumitani-pixel"
-            artifactId = "logger"
-            version = "2.1.6"
-        }
-    }
 }
