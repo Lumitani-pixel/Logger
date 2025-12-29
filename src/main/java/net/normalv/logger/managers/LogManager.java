@@ -1,5 +1,7 @@
 package net.normalv.logger.managers;
 
+import net.normalv.logger.Logger;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -45,7 +47,7 @@ public class LogManager {
         try {
             writer.write(message + System.lineSeparator());
             writer.flush();
-            if (log.length() >= MAX_LOG_SIZE) rotate();
+            if (log.length() >= MAX_LOG_SIZE) rotate(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,15 +57,21 @@ public class LogManager {
      * Finishes and renames logs and starts new one while cleaning up old logs
      * @throws IOException Security first :)
      */
-    private void rotate() throws IOException {
+    private void rotate(boolean createNew) throws IOException {
         writer.close();
 
-        File rotated = new File(folder,
-                "log_" + System.currentTimeMillis() + ".txt");
-        log.renameTo(rotated);
+        log.renameTo(getRotated());
 
         cleanupOldLogs();
-        createNewLogFile();
+        if(createNew) createNewLogFile();
+    }
+
+    /**
+     * Small method for getting the rotated file name
+     */
+    private File getRotated() {
+        return new File(folder,
+                "log_" + Logger.getCurrentTime() + ".txt");
     }
 
     /**
