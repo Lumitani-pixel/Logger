@@ -58,6 +58,7 @@ public class LogManager {
      * @throws IOException Security first :)
      */
     private void rotate(boolean createNew) throws IOException {
+        writer.flush();
         writer.close();
 
         log.renameTo(getRotated());
@@ -70,8 +71,9 @@ public class LogManager {
      * Small method for getting the rotated file name
      */
     private File getRotated() {
+        String time = Logger.getCurrentTime().replace(":", "-");
         return new File(folder,
-                "log_" + Logger.getCurrentTime() + ".txt");
+                "log_" + time + ".txt");
     }
 
     /**
@@ -121,8 +123,7 @@ public class LogManager {
      */
     public synchronized void close() {
         try {
-            writer.flush();
-            writer.close();
+            rotate(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
