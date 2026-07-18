@@ -17,6 +17,8 @@ A lightweight Java logging utility with console output, file logging, automatic 
 
 ## 📦 Installation (JitPack)
 
+[![](https://jitpack.io/v/Lumitani-pixel/Logger.svg)](https://jitpack.io/#Lumitani-pixel/Logger)
+
 ### Gradle
 
 ```kotlin
