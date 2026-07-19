@@ -3,6 +3,7 @@ package net.normalv.logger.managers;
 import net.normalv.logger.Logger;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.zip.ZipEntry;
@@ -83,38 +84,43 @@ public class LogManager {
         File[] files = folder.listFiles((dir, name) ->
                 name.endsWith(".txt") && !name.equals("current.log"));
 
-        if (files == null || files.length <= MAX_LOG_FILES) return;
+        if (files == null || files.length < MAX_LOG_FILES) return;
 
         Arrays.sort(files, Comparator.comparingLong(File::lastModified));
 
-        for (int i = 0; i < files.length - MAX_LOG_FILES; i++) {
-            compress(files[i]);
+        try {
+            compress(files);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < files.length; i++) {
             files[i].delete();
         }
     }
 
     /**
      * Simple compression I quickly learned this so it might be pretty bad
-     * @param file The file to compress
+     * @param files The files to compress
      */
-    private void compress(File file) {
-        File zipFile = new File(file.getAbsolutePath().replace(".txt", ".zip"));
+    private void compress(File[] files) throws IOException {
+        final FileOutputStream fos = new FileOutputStream(files[1].getAbsolutePath().replace(".txt", ".zip"));
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
 
-        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile));
-             FileInputStream fis = new FileInputStream(file)) {
+        for (File file : files) {
+            FileInputStream fis = new FileInputStream(file);
+            ZipEntry zipEntry = new ZipEntry(file.getName());
+            zipOut.putNextEntry(zipEntry);
 
-            zos.putNextEntry(new ZipEntry(file.getName()));
-
-            byte[] buffer = new byte[1024];
+            byte[] bytes = new byte[1024];
             int length;
-            while ((length = fis.read(buffer)) > 0) {
-                zos.write(buffer, 0, length);
+            while((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
             }
-
-            zos.closeEntry();
-        } catch (IOException e) {
-            e.printStackTrace();
+            fis.close();
         }
+
+        zipOut.close();
+        fos.close();
     }
 
     /**
